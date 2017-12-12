@@ -110,7 +110,7 @@ public class DrawView extends View {
             startIndex = 0;
         }
 
-        DrawRenderer.renderModel(mOffscreenCanvas, mModel, mPaint, startIndex);
+        DrawRenderer.INSTANCE.renderModel(mOffscreenCanvas, mModel, mPaint, startIndex);
         canvas.drawBitmap(mOffscreenBitmap, mMatrix, mPaint);
 
         mDrawnLineSize = mModel.getLineSize();
