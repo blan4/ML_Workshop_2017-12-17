@@ -177,4 +177,10 @@ public class DrawView extends View {
         }
         return retPixels;
     }
+
+    @Override
+    public boolean performClick() {
+        super.performClick();
+        return true;
+    }
 }

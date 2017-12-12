@@ -26,6 +26,7 @@ class TouchListener(
                 true
             }
             MotionEvent.ACTION_UP -> {
+                v.performClick()
                 processTouchUp()
                 true
             }
