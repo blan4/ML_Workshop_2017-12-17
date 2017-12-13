@@ -12,9 +12,12 @@ import kotlin.concurrent.withLock
  * If you need to destroy this view, just release it and make null.
  */
 class DrawViewHolder(
-        private val mModel: DrawModel,
-        private val view: View
+        private val view: View,
+        pixelWidth: Int = 28,
+        pixelHeight: Int = 28
 ) {
+    val model: DrawModel = DrawModel(pixelWidth, pixelHeight)
+
     private val mOffscreenBitmap: Bitmap = createBitmap()
     private val mOffscreenCanvas: Canvas = Canvas(mOffscreenBitmap)
     private var mDrawnLineSize = 0
@@ -48,6 +51,7 @@ class DrawViewHolder(
         }
 
     fun reset() {
+        model.clear()
         mDrawnLineSize = 0
 
         mPaint.color = Color.WHITE
@@ -64,10 +68,10 @@ class DrawViewHolder(
             mDrawnLineSize - 1
         }
 
-        DrawRenderer.renderModel(mOffscreenCanvas, mModel, mPaint, startIndex)
+        DrawRenderer.renderModel(mOffscreenCanvas, model, mPaint, startIndex)
         canvas.drawBitmap(mOffscreenBitmap, mMatrix, mPaint)
 
-        mDrawnLineSize = mModel.lineSize
+        mDrawnLineSize = model.lineSize
     }
 
     fun release() {
@@ -75,7 +79,7 @@ class DrawViewHolder(
     }
 
     private fun createBitmap(): Bitmap {
-        return Bitmap.createBitmap(mModel.width, mModel.height, Bitmap.Config.ARGB_8888)
+        return Bitmap.createBitmap(model.width, model.height, Bitmap.Config.ARGB_8888)
     }
 
     /**
@@ -104,8 +108,8 @@ class DrawViewHolder(
         val height = view.height.toFloat()
 
         // Model (bitmap) size
-        val modelWidth = mModel.width.toFloat()
-        val modelHeight = mModel.height.toFloat()
+        val modelWidth = model.width.toFloat()
+        val modelHeight = model.height.toFloat()
 
         val scaleW = width / modelWidth
         val scaleH = height / modelHeight

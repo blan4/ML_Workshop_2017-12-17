@@ -11,48 +11,31 @@ class DrawView(
         context: Context,
         attrs: AttributeSet?
 ) : View(context, attrs) {
-    private var holder: DrawViewHolder? = null
+    private var holder: DrawViewHolder = DrawViewHolder(this)
 
-    val pixelData: FloatArray?
-        get() = holder?.pixelData
+    val pixelData: FloatArray
+        get() = holder.pixelData
 
-    var model: DrawModel? = null
-        set(value) {
-            field = value
-            setup()
-        }
+    val model: DrawModel
+        get() = holder.model
+
+    init {
+        setOnTouchListener(TouchListener())
+    }
 
     /**
      * Clear screen
      */
     fun reset() {
-        holder?.reset()
+        holder.reset()
     }
 
     fun calcPos(x: Float, y: Float, out: PointF) {
-        holder?.calcPos(x, y, out)
+        holder.calcPos(x, y, out)
     }
 
     override fun onDraw(canvas: Canvas) {
-        holder?.onDraw(canvas)
-    }
-
-    /**
-     * Configure new draw view
-     */
-    fun setup() {
-        val m = model ?: return
-        release()
-        holder = DrawViewHolder(m, this)
-    }
-
-    /**
-     * Destroys everything.
-     */
-    fun release() {
-        holder?.reset()
-        holder?.release()
-        holder = null
+        holder.onDraw(canvas)
     }
 
     override fun performClick(): Boolean {
