@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         drawView = find(R.id.draw)
-        drawView.setModel(drawModel)
+        drawView.model = drawModel
         drawView.setOnTouchListener(TouchListener(drawView, drawModel))
 
         val resText: TextView = find(R.id.tfRes)
@@ -34,15 +34,5 @@ class MainActivity : AppCompatActivity() {
             val pixels = drawView.pixelData
             resText.text = "???"
         }
-    }
-
-    override fun onResume() {
-        drawView.onResume()
-        super.onResume()
-    }
-
-    override fun onPause() {
-        drawView.onPause()
-        super.onPause()
     }
 }

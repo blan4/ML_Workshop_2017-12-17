@@ -18,7 +18,7 @@ package org.senior_sigan.digits.views
 
 
 /**
- * Changed by siganov ilya on 12/12/17.
+ * Changed by ilya siganov on 12/12/17.
  */
 class DrawModel(
         val width: Int,
