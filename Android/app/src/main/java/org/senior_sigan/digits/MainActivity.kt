@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import org.jetbrains.anko.find
+import org.jetbrains.anko.toast
 import org.senior_sigan.digits.ml.IClassifier
 import org.senior_sigan.digits.views.DrawView
 import kotlin.concurrent.thread
@@ -46,19 +47,25 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        loadModel()
+        loadModels()
     }
 
-    private fun loadModel() {
+    private fun loadModels() {
+        loadModel("opt_mnist_convnet")
+    }
+
+    private fun loadModel(name: String) {
         thread {
             try {
                 // TODO: add more classifiers
                 classifiers.add(DigitsClassifier(
-                        assets, "mnist_dnn.pb", PIXEL_WIDTH,
+                        assets, "$name.pb", PIXEL_WIDTH,
                         "conv2d_1_input", "dense_2/Softmax",
-                        "baseline"))
+                        name))
+                runOnUiThread { toast("$name.pb loaded") }
             } catch (e: Exception) {
-                Log.e(TAG, "Can't load tf model", e)
+                Log.e(TAG, "Can't load $name model", e)
+                runOnUiThread { toast("Can't load $name model") }
             }
         }
     }

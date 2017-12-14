@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import os
 from datetime import datetime
 
@@ -6,27 +7,39 @@ import tensorflow as tf
 from keras import metrics, Sequential
 from keras.callbacks import TensorBoard, ModelCheckpoint
 from keras.engine import Model
-from keras.layers import Dense, Dropout, K
+from keras.layers import Conv2D, MaxPooling2D
+from keras.layers import Dense, K
+from keras.layers import Flatten
 from keras.optimizers import Adam
 
 from exporter import export_model
 
-num_classes = 10
 
+def build_model():
+    model = Sequential()
+    model.add(Conv2D(filters=16, kernel_size=5, strides=1,
+                     padding='same', activation='relu',
+                     input_shape=[28, 28, 1]))
+    # 28*28*64
+    model.add(MaxPooling2D(pool_size=2, strides=2, padding='same'))
+    # 14*14*64
 
-def build_model() -> Model:
-    model = Sequential(layers=[
-        Dense(200, activation='relu', input_shape=(784,)),
-        Dropout(0.5),
-        Dense(100, activation='relu'),
-        Dropout(0.5),
-        Dense(60, activation='relu'),
-        Dropout(0.5),
-        Dense(60, activation='relu'),
-        Dense(num_classes, activation='softmax')
-    ])
+    model.add(Conv2D(filters=32, kernel_size=4, strides=1,
+                     padding='same', activation='relu'))
+    # 14*14*128
+    model.add(MaxPooling2D(pool_size=2, strides=2, padding='same'))
+    # 7*7*128
 
-    model.summary()
+    model.add(Conv2D(filters=64, kernel_size=3, strides=1,
+                     padding='same', activation='relu'))
+    # 7*7*256
+    model.add(MaxPooling2D(pool_size=2, strides=2, padding='same'))
+    # 4*4*256
+
+    model.add(Flatten())
+    model.add(Dense(64 * 4, activation='relu'))
+    model.add(Dense(10, activation='softmax'))
+
     return model
 
 
@@ -55,7 +68,7 @@ def train(model: Model, x_train, y_train, x_test, y_test, batch_size=128, epochs
                   mode='auto'
               )])
 
-    export_model(tf.train.Saver(), ['dense_1_input'], 'dense_5/Softmax', name)
+    export_model(tf.train.Saver(), ['conv2d_1_input'], 'dense_2/Softmax', name)
 
     score = model.evaluate(x_test, y_test)
 

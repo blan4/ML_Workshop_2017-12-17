@@ -23,16 +23,14 @@ class DigitsClassifier(
 
     override fun predict(pixels: FloatArray): Prediction {
         tfHelper.feed(inputName, pixels, 1L, inputSize, inputSize, 1L)
-        tfHelper.feed("keep_prob", floatArrayOf(1f))
+//        tfHelper.feed("keep_prob", floatArrayOf(1f))
 
         tfHelper.run(outputNames)
         tfHelper.fetch(outputName, output)
 
-        val pred = Prediction()
-        for (i in output.indices) {
-            Log.d(TAG, "Out: ${output[i]}, Label: ${labels[i]}")
-        }
+        val preds = output.indices.map { i ->Prediction(output[i], labels[i]) }
+        Log.i(TAG, "Preds: $preds")
 
-        return pred
+        return preds.sortedByDescending { it.probaF }.first()
     }
 }
