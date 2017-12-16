@@ -1,0 +1,47 @@
+➔ py model
+Using TensorFlow backend.
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #
+=================================================================
+dense_1 (Dense)              (None, 200)               157000
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 200)               0
+_________________________________________________________________
+dense_2 (Dense)              (None, 100)               20100
+_________________________________________________________________
+dropout_2 (Dropout)          (None, 100)               0
+_________________________________________________________________
+dense_3 (Dense)              (None, 60)                6060
+_________________________________________________________________
+dropout_3 (Dropout)          (None, 60)                0
+_________________________________________________________________
+dense_4 (Dense)              (None, 60)                3660
+_________________________________________________________________
+dense_5 (Dense)              (None, 10)                610
+=================================================================
+Total params: 187,430
+Trainable params: 187,430
+Non-trainable params: 0
+_________________________________________________________________
+Train on 60000 samples, validate on 10000 samples
+Epoch 1/5
+59904/60000 [============================>.] - ETA: 0s - loss: 0.9273 - categorical_accuracy: 0.6955Epoch 00001: val_categorical_accuracy improved from -inf to 0.93590, saving model to ./checkpoints/dnn_1513415361/weights-improvement-01-0.94.hdf5
+60000/60000 [==============================] - 6s 94us/step - loss: 0.9263 - categorical_accuracy: 0.6958 - val_loss: 0.2329 - val_categorical_accuracy: 0.9359
+Epoch 2/5
+59648/60000 [============================>.] - ETA: 0s - loss: 0.3927 - categorical_accuracy: 0.8931Epoch 00002: val_categorical_accuracy improved from 0.93590 to 0.95000, saving model to ./checkpoints/dnn_1513415361/weights-improvement-02-0.95.hdf5
+60000/60000 [==============================] - 6s 96us/step - loss: 0.3928 - categorical_accuracy: 0.8930 - val_loss: 0.1750 - val_categorical_accuracy: 0.9500
+Epoch 3/5
+59904/60000 [============================>.] - ETA: 0s - loss: 0.3072 - categorical_accuracy: 0.9192Epoch 00003: val_categorical_accuracy improved from 0.95000 to 0.95950, saving model to ./checkpoints/dnn_1513415361/weights-improvement-03-0.96.hdf5
+60000/60000 [==============================] - 5s 90us/step - loss: 0.3071 - categorical_accuracy: 0.9193 - val_loss: 0.1511 - val_categorical_accuracy: 0.9595
+Epoch 4/5
+59648/60000 [============================>.] - ETA: 0s - loss: 0.2623 - categorical_accuracy: 0.9307Epoch 00004: val_categorical_accuracy improved from 0.95950 to 0.96060, saving model to ./checkpoints/dnn_1513415361/weights-improvement-04-0.96.hdf5
+60000/60000 [==============================] - 6s 96us/step - loss: 0.2617 - categorical_accuracy: 0.9309 - val_loss: 0.1512 - val_categorical_accuracy: 0.9606
+Epoch 5/5
+59392/60000 [============================>.] - ETA: 0s - loss: 0.2405 - categorical_accuracy: 0.9380Epoch 00005: val_categorical_accuracy improved from 0.96060 to 0.96630, saving model to ./checkpoints/dnn_1513415361/weights-improvement-05-0.97.hdf5
+60000/60000 [==============================] - 6s 94us/step - loss: 0.2405 - categorical_accuracy: 0.9380 - val_loss: 0.1264 - val_categorical_accuracy: 0.9663
+Converted 10 variables to const ops.
+97 ops in the final graph.
+graph saved!
+10000/10000 [==============================] - 1s 148us/step
+Test loss: 0.126438725198
+Test accuracy: 0.9663

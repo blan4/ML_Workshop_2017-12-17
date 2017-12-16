@@ -6,7 +6,7 @@ def dense_neural_net():
     from data import load_data
     x_train, y_train, x_test, y_test = load_data()
     m = dnn.build_model()
-    dnn.train(m, x_train, y_train, x_test, y_test, batch_size=128, epochs=2)
+    dnn.train(m, x_train, y_train, x_test, y_test, batch_size=128, epochs=5)
 
 
 def main():

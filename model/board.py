@@ -2,6 +2,7 @@
 
 import tensorflow as tf
 from tensorflow.python.platform import gfile
+import sys
 
 
 def main(model_filename, logdir='/tmp/tensorflow/android'):
@@ -15,4 +16,4 @@ def main(model_filename, logdir='/tmp/tensorflow/android'):
 
 
 if __name__ == '__main__':
-    main('./out/opt_dnn_1513276162.pb')
+    main(sys.argv[1])

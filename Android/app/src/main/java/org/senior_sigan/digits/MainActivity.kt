@@ -1,5 +1,6 @@
 package org.senior_sigan.digits
 
+import android.content.res.AssetManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -10,6 +11,7 @@ import org.jetbrains.anko.toast
 import org.senior_sigan.digits.ml.IClassifier
 import org.senior_sigan.digits.views.DrawView
 import kotlin.concurrent.thread
+import kotlin.reflect.KFunction6
 
 
 class MainActivity : AppCompatActivity() {
@@ -38,8 +40,13 @@ class MainActivity : AppCompatActivity() {
                 val text = StringBuilder()
                 val pixels = drawView.pixelData
                 classifiers.forEach {
-                    val pred = it.predict(pixels)
-                    text.append("${it.name}: ${pred.label} ${pred.proba}")
+                    try {
+                        val pred = it.predict(pixels)
+                        text.append("${it.name}: ${pred.label} ${pred.proba}\n")
+                    } catch (e: Exception) {
+                        text.append("${it.name}: err\n")
+                        Log.e(TAG, "Can't predict ${it.name}", e)
+                    }
                 }
                 runOnUiThread {
                     resText.text = text.toString()
@@ -51,17 +58,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadModels() {
-        loadModel("opt_mnist_convnet")
+        loadModel("conv", "conv2d_1_input", "dense_2/Softmax", ::DigitsClassifierSquare)
+        loadModel("dnn", "dense_1_input", "dense_2/Softmax", ::DigitsClassifierFlatten)
     }
 
-    private fun loadModel(name: String) {
+    private fun loadModel(
+            name: String, inputName: String, outName: String,
+            builder: KFunction6<AssetManager, String, Long, String, String, String, IClassifier>) {
         thread {
             try {
-                // TODO: add more classifiers
-                classifiers.add(DigitsClassifier(
+                classifiers.add(builder(
                         assets, "$name.pb", PIXEL_WIDTH,
-                        "conv2d_1_input", "dense_2/Softmax",
-                        name))
+                        inputName, outName, name))
                 runOnUiThread { toast("$name.pb loaded") }
             } catch (e: Exception) {
                 Log.e(TAG, "Can't load $name model", e)

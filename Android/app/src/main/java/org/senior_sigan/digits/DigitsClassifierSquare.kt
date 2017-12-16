@@ -6,7 +6,7 @@ import org.senior_sigan.digits.ml.IClassifier
 import org.senior_sigan.digits.ml.Prediction
 import org.tensorflow.contrib.android.TensorFlowInferenceInterface
 
-class DigitsClassifier(
+class DigitsClassifierSquare(
         assetManager: AssetManager,
         modelPath: String,
         private val inputSize: Long,
@@ -14,7 +14,7 @@ class DigitsClassifier(
         private val outputName: String,
         override val name: String
 ) : IClassifier {
-    private val TAG = "DigitsClassifier $name"
+    private val TAG = "DigitsClassifierSquare $name"
     private var tfHelper = TensorFlowInferenceInterface(assetManager, modelPath)
     private var outputNames = arrayOf(outputName)
     override val numClasses: Int = 10
@@ -23,7 +23,6 @@ class DigitsClassifier(
 
     override fun predict(pixels: FloatArray): Prediction {
         tfHelper.feed(inputName, pixels, 1L, inputSize, inputSize, 1L)
-//        tfHelper.feed("keep_prob", floatArrayOf(1f))
 
         tfHelper.run(outputNames)
         tfHelper.fetch(outputName, output)

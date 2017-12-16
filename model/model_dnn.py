@@ -17,12 +17,12 @@ num_classes = 10
 def build_model() -> Model:
     model = Sequential(layers=[
         Dense(200, activation='relu', input_shape=(784,)),
-        Dropout(0.5),
-        Dense(100, activation='relu'),
-        Dropout(0.5),
-        Dense(60, activation='relu'),
-        Dropout(0.5),
-        Dense(60, activation='relu'),
+        # Dropout(0.5),
+        # Dense(100, activation='relu'),
+        # Dropout(0.5),
+        # Dense(60, activation='relu'),
+        # Dropout(0.5),
+        # Dense(60, activation='relu'),
         Dense(num_classes, activation='softmax')
     ])
 
@@ -55,7 +55,7 @@ def train(model: Model, x_train, y_train, x_test, y_test, batch_size=128, epochs
                   mode='auto'
               )])
 
-    export_model(tf.train.Saver(), ['dense_1_input'], 'dense_5/Softmax', name)
+    export_model(tf.train.Saver(), ['dense_1_input'], 'dense_2/Softmax', name)
 
     score = model.evaluate(x_test, y_test)
 
