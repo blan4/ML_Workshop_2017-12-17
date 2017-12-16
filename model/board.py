@@ -4,6 +4,10 @@ import tensorflow as tf
 from tensorflow.python.platform import gfile
 import sys
 
+"""
+This code transform optimal graph into tensorboard visualisation.
+We use it to check that graph was stored correct!!
+"""
 
 def main(model_filename, logdir='/tmp/tensorflow/android'):
     with tf.Session() as sess:

@@ -22,6 +22,7 @@ def export_model(saver: tf.train.Saver, input_names: list, output_name: str, mod
 
     saver.save(K.get_session(), 'out/' + model_name + '.chkp')
 
+    # pbtxt is human readable representation of the graph
     freeze_graph.freeze_graph('out/' + model_name + '_graph.pbtxt', None,
                               False, 'out/' + model_name + '.chkp', output_name,
                               "save/restore_all", "save/Const:0",
@@ -31,10 +32,12 @@ def export_model(saver: tf.train.Saver, input_names: list, output_name: str, mod
     with tf.gfile.Open('out/frozen_' + model_name + '.pb', "rb") as f:
         input_graph_def.ParseFromString(f.read())
 
+    # optimization of the graph so we can use it in the android app
     output_graph_def = optimize_for_inference_lib.optimize_for_inference(
         input_graph_def, input_names, [output_name],
         tf.float32.as_datatype_enum)
 
+    # This is archived optimal graph in the protobuf format we'll use in our android App.
     with tf.gfile.FastGFile('out/opt_' + model_name + '.pb', "wb") as f:
         f.write(output_graph_def.SerializeToString())
 

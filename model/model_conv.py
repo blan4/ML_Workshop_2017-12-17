@@ -14,6 +14,9 @@ from keras.optimizers import Adam
 
 from exporter import export_model
 
+"""
+Here we have a model with deep convulational neural network
+"""
 
 def build_model():
     model = Sequential()

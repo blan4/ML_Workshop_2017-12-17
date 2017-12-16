@@ -1,6 +1,5 @@
 package org.senior_sigan.digits
 
-import android.content.res.AssetManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -11,7 +10,6 @@ import org.jetbrains.anko.toast
 import org.senior_sigan.digits.ml.IClassifier
 import org.senior_sigan.digits.views.DrawView
 import kotlin.concurrent.thread
-import kotlin.reflect.KFunction6
 
 
 class MainActivity : AppCompatActivity() {
@@ -58,16 +56,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadModels() {
-        loadModel("conv", "conv2d_1_input", "dense_2/Softmax", ::DigitsClassifierSquare)
-        loadModel("dnn", "dense_1_input", "dense_2/Softmax", ::DigitsClassifierFlatten)
+        loadModel<DigitsClassifierSquare>("conv", "conv2d_1_input", "dense_2/Softmax")
+        loadModel<DigitsClassifierFlatten>("dnn", "dense_1_input", "dense_2/Softmax")
     }
 
-    private fun loadModel(
-            name: String, inputName: String, outName: String,
-            builder: KFunction6<AssetManager, String, Long, String, String, String, IClassifier>) {
+    private inline fun <reified T : IClassifier> loadModel(
+            name: String, inputName: String, outName: String
+    ) {
         thread {
             try {
-                classifiers.add(builder(
+                classifiers.add(buildModel<T>(
                         assets, "$name.pb", PIXEL_WIDTH,
                         inputName, outName, name))
                 runOnUiThread { toast("$name.pb loaded") }

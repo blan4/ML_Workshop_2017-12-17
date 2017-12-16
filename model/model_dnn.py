@@ -13,6 +13,10 @@ from exporter import export_model
 
 num_classes = 10
 
+"""
+Here we have a simple dummy neural net, that might overfit and be not accurate
+"""
+
 
 def build_model() -> Model:
     model = Sequential(layers=[
