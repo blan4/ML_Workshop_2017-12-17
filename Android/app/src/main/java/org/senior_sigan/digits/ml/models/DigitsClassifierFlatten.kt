@@ -1,4 +1,4 @@
-package org.senior_sigan.digits
+package org.senior_sigan.digits.ml.models
 
 import android.content.res.AssetManager
 import android.util.Log

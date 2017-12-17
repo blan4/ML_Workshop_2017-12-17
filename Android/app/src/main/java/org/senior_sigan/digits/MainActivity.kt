@@ -8,6 +8,8 @@ import android.widget.TextView
 import org.jetbrains.anko.find
 import org.jetbrains.anko.toast
 import org.senior_sigan.digits.ml.IClassifier
+import org.senior_sigan.digits.ml.models.DigitsClassifierFlatten
+import org.senior_sigan.digits.ml.models.DigitsClassifierSquare
 import org.senior_sigan.digits.views.DrawView
 import kotlin.concurrent.thread
 
@@ -56,23 +58,34 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadModels() {
-        loadModel<DigitsClassifierSquare>("conv", "conv2d_1_input", "dense_2/Softmax")
-        loadModel<DigitsClassifierFlatten>("dnn", "dense_1_input", "dense_2/Softmax")
+        thread {
+            loadModel("dnn", {
+                DigitsClassifierFlatten(assets,
+                        "dnn.pb",
+                        PIXEL_WIDTH,
+                        "dense_1_input",
+                        "dense_2/Softmax",
+                        "dnn")
+            })
+
+            loadModel("conv", {
+                DigitsClassifierSquare(assets,
+                        "conv.pb",
+                        PIXEL_WIDTH,
+                        "conv2d_1_input",
+                        "dense_2/Softmax",
+                        "conv")
+            })
+        }
     }
 
-    private inline fun <reified T : IClassifier> loadModel(
-            name: String, inputName: String, outName: String
-    ) {
-        thread {
-            try {
-                classifiers.add(buildModel<T>(
-                        assets, "$name.pb", PIXEL_WIDTH,
-                        inputName, outName, name))
-                runOnUiThread { toast("$name.pb loaded") }
-            } catch (e: Exception) {
-                Log.e(TAG, "Can't load $name model", e)
-                runOnUiThread { toast("Can't load $name model") }
-            }
+    private fun loadModel(name: String, builder: () -> IClassifier) {
+        try {
+            classifiers.add(builder())
+            runOnUiThread { toast("$name.pb loaded") }
+        } catch (e: Exception) {
+            Log.e(TAG, "Can't load $name.pb model", e)
+            runOnUiThread { toast("Can't load $name.pb model") }
         }
     }
 }

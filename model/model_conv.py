@@ -48,7 +48,7 @@ def build_model():
 
 def train(model: Model, x_train, y_train, x_test, y_test, batch_size=128, epochs=20):
     time = int(datetime.now().timestamp())
-    name = "{}_{}".format("dnn", time)
+    name = "{}_{}".format("conv", time)
     chkp_path = "./checkpoints/{}".format(name)
     os.makedirs(chkp_path, exist_ok=True)
 
