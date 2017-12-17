@@ -6,6 +6,9 @@ import org.senior_sigan.digits.ml.IClassifier
 import org.senior_sigan.digits.ml.Prediction
 import org.tensorflow.contrib.android.TensorFlowInferenceInterface
 
+/**
+ * Simple Dense neural net with 1d input
+ */
 class DigitsClassifierFlatten(
         assetManager: AssetManager,
         modelPath: String,

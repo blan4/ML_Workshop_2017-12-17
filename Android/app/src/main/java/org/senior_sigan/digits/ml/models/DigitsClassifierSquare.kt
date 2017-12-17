@@ -6,6 +6,9 @@ import org.senior_sigan.digits.ml.IClassifier
 import org.senior_sigan.digits.ml.Prediction
 import org.tensorflow.contrib.android.TensorFlowInferenceInterface
 
+/**
+ * Conv net loader and classifier with 2d input
+ */
 class DigitsClassifierSquare(
         assetManager: AssetManager,
         modelPath: String,

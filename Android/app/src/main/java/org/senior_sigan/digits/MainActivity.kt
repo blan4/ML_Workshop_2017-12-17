@@ -16,76 +16,39 @@ import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "MNIST"
-    private lateinit var drawView: DrawView
 
     private val PIXEL_WIDTH = 28L
-
-    private val classifiers = mutableListOf<IClassifier>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        drawView = find(R.id.draw)
+        // R.layout.activity_main is configured
 
-        val resText: TextView = find(R.id.tfRes)
+        // find DrawView
 
-        find<Button>(R.id.btn_clear).setOnClickListener {
-            drawView.reset()
-            drawView.invalidate()
-        }
+        // find text view
 
-        find<Button>(R.id.btn_class).setOnClickListener {
-            thread {
-                val text = StringBuilder()
-                val pixels = drawView.pixelData
-                classifiers.forEach {
-                    try {
-                        val pred = it.predict(pixels)
-                        text.append("${it.name}: ${pred.label} ${pred.proba}\n")
-                    } catch (e: Exception) {
-                        text.append("${it.name}: err\n")
-                        Log.e(TAG, "Can't predict ${it.name}", e)
-                    }
-                }
-                runOnUiThread {
-                    resText.text = text.toString()
-                }
-            }
-        }
+        // find buttons
 
-        loadModels()
+        // add button reactions
+
+        // do predictions by getting `drawView.pixelData`
+
+        // put text results in text view
+
+        // load models
     }
 
     private fun loadModels() {
-        thread {
-            loadModel("dnn", {
-                DigitsClassifierFlatten(assets,
-                        "dnn.pb",
-                        PIXEL_WIDTH,
-                        "dense_1_input",
-                        "dense_2/Softmax",
-                        "dnn")
-            })
-
-            loadModel("conv", {
-                DigitsClassifierSquare(assets,
-                        "conv.pb",
-                        PIXEL_WIDTH,
-                        "conv2d_1_input",
-                        "dense_2/Softmax",
-                        "conv")
-            })
-        }
+        // in another thread load models by instantiating
+        // DigitsClassifierSquare for Conv net
+        // DigitsClassifierFlatten for DNN
     }
 
     private fun loadModel(name: String, builder: () -> IClassifier) {
-        try {
-            classifiers.add(builder())
-            runOnUiThread { toast("$name.pb loaded") }
-        } catch (e: Exception) {
-            Log.e(TAG, "Can't load $name.pb model", e)
-            runOnUiThread { toast("Can't load $name.pb model") }
-        }
+        // recommendation
+        // load model with try catch blocks and so on
+        // show toasts or errors
     }
 }

@@ -2,19 +2,19 @@
 
 
 def dense_neural_net():
-    import model_dnn as model
-    from data import load_data
-    x_train, y_train, x_test, y_test = load_data()
-    m = model.build_model()
-    model.train(m, x_train, y_train, x_test, y_test, batch_size=128, epochs=5)
+    # Import model_dnn
+    # build it
+    # train it
+    # copy opt_dnn.pb to android assets
+    pass
 
 
 def conv_neural_net():
-    import model_conv as model
-    from data import load_data
-    x_train, y_train, x_test, y_test = load_data()
-    m = model.build_model()
-    model.train(m, x_train, y_train, x_test, y_test, batch_size=128, epochs=5)
+    # Import model_conv
+    # build it
+    # train it
+    # copy opt_conv.pb to android assets
+    pass
 
 
 def main():
