@@ -13,7 +13,7 @@ Used technologies:
 - Tensorflow
 - MNIST dataset to train model
 
-![MNIST TF Android demo](https://i.imgur.com/fvKU3W2.gifv)
+[Demo gif](https://i.imgur.com/fvKU3W2.gifv)
 
 ---
 
